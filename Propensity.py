@@ -10,14 +10,14 @@ from theano import shared
 # Manually input the data into the DataFrame
 # Replace the ellipses with the actual data
 data = {
-    'SUDS Score Pre': [30, 60, 40, 10, 10, 20, 20, 30],  # Replace with actual SUDS Score Pre data
-    'Sleep Levels': [4, 2, 4, 3, 2, 3, 2, 4],  # Replace with actual Sleep Levels data
-    'Age': [19, 19, 19, 19, 18, 20, 20, 19],  # Replace with actual Age data
-    'Sex': [0, 1, 0, 1, 0, 1, 0, 1],  # Replace with actual Sex data (0 for male, 1 for female)
-    'Change in SysBP': [7, 4, 4, 5, 6, 13, 16, 8],  # Replace with actual Change in SysBP data
-    'Change in DiaBP': [-5, 8, -7, 5, 4, -6, -3, 5],  # Replace with actual Change in DiaBP data
-    'Change in HR': [15, 9, 3, 5, 8, 4, 10, 9],  # Replace with actual Change in HR data
-    'Treatment': [1, 1, 1, 1, 0, 0, 0, 0]  # Replace with actual binary treatment data (0 for control, 1 for treatment)
+    'SUDS Score Pre': [30, 60, 40, 10, 10, 20, 20, 30, 50, 30, 10, 30],  # Replace with actual SUDS Score Pre data
+    'Sleep Levels': [4, 2, 4, 3, 2, 3, 2, 4, 5, 5, 4, 2],  # Replace with actual Sleep Levels data
+    'Age': [19, 19, 19, 19, 18, 20, 20, 19, 20, 20, 19, 20],  # Replace with actual Age data
+    'Sex': [0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1],  # Replace with actual Sex data (0 for male, 1 for female)
+    'Change in SysBP': [7, 4, 4, 5, 6, 13, 16, 8, 4, 5, 2, 5],  # Replace with actual Change in SysBP data
+    'Change in DiaBP': [-5, 8, -7, 5, 4, -6, -3, 5, -7, 2, -5, -3],  # Replace with actual Change in DiaBP data
+    'Change in HR': [15, 9, 3, 5, 8, 4, 10, 9, -6, -2, -3, -5],  # Replace with actual Change in HR data
+    'Treatment': [1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0]  # Replace with actual binary treatment data (0 for control, 1 for treatment)
 }
 
 # Creating a DataFrame
@@ -57,8 +57,12 @@ matched_control = []
 
 # Iterate through each treatment participant
 for t_index in treatment_indices:
+    # Adjust t_index to access the correct row in dist_matrix
+    t_index_adjusted = np.where(treatment_indices == t_index)[0][0]
+
     # Find the control participant with the closest propensity score that hasn't been matched yet
-    closest_controls = np.argsort(dist_matrix[t_index - treatment_indices[0]])  # Adjusting index for slice
+    closest_controls = np.argsort(dist_matrix[t_index_adjusted])
+
     for c_index in closest_controls:
         control_index = control_indices[c_index]
         if control_index not in matched_control:
@@ -120,8 +124,12 @@ matched_control = []
 
 # Iterate through each treatment participant
 for t_index in treatment_indices:
+    # Adjust t_index to access the correct row in dist_matrix
+    t_index_adjusted = np.where(treatment_indices == t_index)[0][0]
+
     # Find the control participant with the closest propensity score that hasn't been matched yet
-    closest_controls = np.argsort(dist_matrix[t_index - treatment_indices[0]])  # Adjusting index for slice
+    closest_controls = np.argsort(dist_matrix[t_index_adjusted])
+
     for c_index in closest_controls:
         control_index = control_indices[c_index]
         if control_index not in matched_control:
@@ -146,7 +154,7 @@ coef_means = np.mean(trace['Slopes'], axis=0)
 intercept_mean = np.mean(trace['Intercept'])
 
 # Define the extent of Bayesian influence (between 0 and 1)
-bayesian_influence = 0.1  # Adjust this to control the influence
+bayesian_influence = 0.15  # Adjust this to control the influence
 
 coef_variances = np.var(trace['Slopes'], axis=0)
 
@@ -199,8 +207,12 @@ matched_control = []
 
 # Iterate through each treatment participant
 for t_index in treatment_indices:
+    # Adjust t_index to access the correct row in dist_matrix
+    t_index_adjusted = np.where(treatment_indices == t_index)[0][0]
+
     # Find the control participant with the closest propensity score that hasn't been matched yet
-    closest_controls = np.argsort(dist_matrix[t_index - treatment_indices[0]])  # Adjusting index for slice
+    closest_controls = np.argsort(dist_matrix[t_index_adjusted])
+
     for c_index in closest_controls:
         control_index = control_indices[c_index]
         if control_index not in matched_control:
