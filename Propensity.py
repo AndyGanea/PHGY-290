@@ -17,6 +17,7 @@ data = {
     'Change in SysBP': [7, 4, 4, 5, 6, 13, 16, 8, 4, 5, 2, 5],  # Replace with actual Change in SysBP data
     'Change in DiaBP': [-5, 8, -7, 5, 4, -6, -3, 5, -7, 2, -5, -3],  # Replace with actual Change in DiaBP data
     'Change in HR': [15, 9, 3, 5, 8, 4, 10, 9, -6, -2, -3, -5],  # Replace with actual Change in HR data
+    'Test Score': [8, 11, 9, 8, 5, 6, 5, 7, 10, 11, 8, 8],
     'Treatment': [1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0]  # Replace with actual binary treatment data (0 for control, 1 for treatment)
 }
 
@@ -154,7 +155,7 @@ coef_means = np.mean(trace['Slopes'], axis=0)
 intercept_mean = np.mean(trace['Intercept'])
 
 # Define the extent of Bayesian influence (between 0 and 1)
-bayesian_influence = 0.15  # Adjust this to control the influence
+bayesian_influence = 0.20  # Adjust this to control the influence
 
 coef_variances = np.var(trace['Slopes'], axis=0)
 

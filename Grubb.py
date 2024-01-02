@@ -2,14 +2,14 @@ import numpy as np
 from scipy import stats
 
 # Prepare the data
-data = np.array([79, 78, 81, 102, 71, 59, 63, 75, 67, 83, 75, 69, 66, 78])
+data = np.array([18, 9, 8, 5, 3, 7])
 
 # Calculate mean and standard deviation
 mean = np.mean(data)
 std_dev = np.std(data)
 
 # Identify the suspected outlier
-suspected_outlier = 102
+suspected_outlier = 18
 
 # Calculate Grubb's statistic
 G = np.abs(suspected_outlier - mean) / std_dev
